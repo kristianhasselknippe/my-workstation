@@ -17,6 +17,7 @@ echo "deb http://debian.sur5r.net/i3/ $(grep '^DISTRIB_CODENAME=' /etc/lsb-relea
 sudo apt update
 sudo apt install i3 -y
 cp ./i3/config ~/.config/i3/config
+sudo apt install i3blocks -y
 
 # neovim
 echo "Installing neovim..."
