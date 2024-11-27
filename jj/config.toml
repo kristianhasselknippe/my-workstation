@@ -1,0 +1,11 @@
+[user]
+name = "Kristian Fjeld Hasselknippe"
+email = "kristian@midio.com"
+
+[ui]
+default-command = [
+  "log",
+  "-r",
+  "@ | ancestors(remote_bookmarks().., 2) | trunk()",
+]
+editor = "nvim"
