@@ -1,0 +1,91 @@
+{
+    "window.commandCenter": 1,
+	// Delegate certain key combinations back to VS Code to be handled natively.
+	"vim.insertModeKeyBindings": [
+		{
+			"before": ["f", "d"],
+			"after": ["<Esc>"]
+		}
+	],    
+	"vim.normalModeKeyBindings": [
+		{
+			"before": ["<space>", "<space>"],
+			"commands": ["workbench.action.quickOpen"]
+		},
+		{
+			"before": ["<space>", "w", "h"],
+			"commands": ["workbench.action.focusLeftGroup"]
+		},
+		{
+			"before": ["<space>", "w", "j"], 
+			"commands": ["workbench.action.focusBelowGroup"]
+		},
+		{
+			"before": ["<space>", "w", "k"],
+			"commands": ["workbench.action.focusAboveGroup"]
+		},
+		{
+			"before": ["<space>", "w", "l"],
+			"commands": ["workbench.action.focusRightGroup"]
+		},
+		{
+			"before": ["<space>", "w", "v"],
+			"commands": ["workbench.action.splitEditorRight"]
+		},
+		{
+			"before": ["<space>", "w", "d"],
+			"commands": ["workbench.action.closeEditorsInGroup"]
+		},
+		{
+			"before": ["<space>", "w", "<C-o>"],
+			"commands": ["workbench.action.closeEditorsInOtherGroups"]
+		},
+		{
+			"before": ["<space>", "`"],
+			"commands": ["workbench.action.nextEditorInGroup"]
+		},
+		{
+			"before": ["<space>", "c", "r"],
+			"commands": ["editor.action.rename"]
+		},
+		{
+			"before": ["<space>", "s", "b"],
+			"commands": ["actions.find"]
+		},
+		{
+			"before": ["<space>", "/"],
+			"commands": ["workbench.action.findInFiles"]
+		},
+		{
+			"before": ["<space>", "c", "a"],
+			"commands": ["editor.action.quickFix"]
+		},
+		{
+			"before": ["<space>", "s", "s"],
+			"commands": ["workbench.action.gotoSymbol"]
+		},
+		{
+			"before": ["<space>", "s", "S"],
+			"commands": ["workbench.action.showAllSymbols"]
+		},
+		{
+			"before": ["g", "r"],
+			"commands": ["references-view.findReferences"],
+			"mode": "normal"
+		},
+		{
+			"before": ["g", "y"],
+			"commands": ["editor.action.goToTypeDefinition"]
+		},
+		{
+			"before": ["<space>", "x"],
+			"commands": ["workbench.panel.markers.view.focus"]
+		},
+		{
+			"before": ["<space>", "m", "e"],
+			"commands": ["workbench.view.explorer"]
+		}
+	],
+	"workbench.colorTheme": "Default Dark Modern",
+
+}
