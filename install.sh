@@ -18,7 +18,7 @@ echo
 
 # Use password to unzip
 echo "Unzipping secrets.zip..."
-if ! echo "$SECRETS_PASSWORD" | unzip -P - ./secrets.zip; then
+if ! unzip -P "$SECRETS_PASSWORD" ./secrets.zip; then
     echo "Failed to unzip secrets.zip - incorrect password?"
     exit 1
 fi
