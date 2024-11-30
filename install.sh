@@ -105,6 +105,15 @@ cp -r ./lazyvim/nvim/* ~/.config/nvim/
 echo "Installing rust..."
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
 
+# Source rustup
+. "$HOME/.cargo/env"
+
+# Install build-essential
+if ! sudo apt install build-essential -y; then
+    echo "Failed to install build-essential"
+    exit 1
+fi
+
 # ripgrep
 echo "Installing ripgrep..."
 if ! cargo install ripgrep; then
