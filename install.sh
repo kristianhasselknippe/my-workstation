@@ -4,6 +4,8 @@ set -euo pipefail
 sudo apt update -y
 sudo apt upgrade -y
 
+unzip ./secrets.zip
+
 echo "Installing oh-my-zsh..."
 if ! sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"; then
     echo "Failed to install oh-my-zsh"
