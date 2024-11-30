@@ -147,7 +147,7 @@ if ! sudo apt install -y cmake pkg-config libfreetype6-dev libfontconfig1-dev li
     exit 1
 fi
 echo "Installing Alacritty, this might take a while..."
-if ! sudo cargo install alacritty; then
+if ! cargo install alacritty; then
     echo "Failed to install alacritty"
     exit 1
 fi
@@ -171,7 +171,7 @@ export PATH="$PNPM_HOME:$PATH"
 
 # wireguard
 echo "Installing wireguard..."
-if ! sudo apt install -y wireguard; then
+if ! apt install -y wireguard; then
     echo "Failed to install wireguard"
     exit 1
 fi
