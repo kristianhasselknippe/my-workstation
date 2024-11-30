@@ -140,9 +140,10 @@ fi
 echo "Installing difftastic..."
 cargo install --locked difftastic
 
+
 # alacritty
 echo "Installing alacritty..."
-if ! sudo apt install -y cmake pkg-config libfreetype6-dev libfontconfig1-dev libxcb-xfixes0-dev libxkbcommon-dev python3; then
+if ! sudo apt install cmake g++ pkg-config libfreetype6-dev libfontconfig1-dev libxcb-xfixes0-dev libxkbcommon-dev python3 -y; then
     echo "Failed to install alacritty dependencies"
     exit 1
 fi
@@ -206,6 +207,11 @@ if ! curl -fsSL https://bun.sh/install | bash; then
     echo "Failed to install bun"
     exit 1
 fi
+
+cp -r ./lazyvim ~/.config/nvim
+cp -r ./lazygit ~/.config/lazygit
+cp -r ./i3 ~/.config/i3
+cp -r ./Cursor ~/.config/Cursor
 
 # post install verification
 echo "Verifying installations..."
