@@ -172,7 +172,7 @@ export PATH="$PNPM_HOME:$PATH"
 
 # wireguard
 echo "Installing wireguard..."
-if ! apt install -y wireguard; then
+if ! sudo apt install -y wireguard; then
     echo "Failed to install wireguard"
     exit 1
 fi
@@ -186,8 +186,7 @@ fi
 
 # docker
 # Add Docker's official GPG key:
-sudo apt-get update
-sudo apt-get install ca-certificates curl
+sudo sudo apt-get install ca-certificates curl
 sudo install -m 0755 -d /etc/apt/keyrings
 sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
 sudo chmod a+r /etc/apt/keyrings/docker.asc
