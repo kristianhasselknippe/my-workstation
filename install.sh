@@ -34,7 +34,10 @@ fi
 # Move ./secrets/kristian.conf to /etc/wireguard/kristian.conf
 echo "Installing wireguard config..."
 sudo mkdir -p /etc/wireguard
-sudo yes | cp -rf ./secrets/kristian.conf /etc/wireguard/kristian.conf
+if ! sudo cp -f ./secrets/kristian.conf /etc/wireguard/kristian.conf; then
+    echo "Failed to install wireguard config"
+    exit 1
+fi
 
 # zsh
 echo "Installing zsh..."
