@@ -121,6 +121,21 @@ if ! cargo install ripgrep; then
     exit 1
 fi
 
+# clang
+echo "Installing clang..."
+if ! sudo apt install clang -y; then
+    echo "Failed to install clang"
+    exit 1
+fi
+sudo update-alternatives --config c++
+
+# fd
+echo "Installing fd..."
+if ! sudo apt install fd-find -y; then
+    echo "Failed to install fd"
+    exit 1
+fi
+
 # difftastic < rust
 echo "Installing difftastic..."
 cargo install --locked difftastic
