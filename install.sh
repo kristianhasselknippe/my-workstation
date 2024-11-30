@@ -1,6 +1,12 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+# Check for essential dependencies
+if ! command -v sudo >/dev/null; then
+    echo "sudo is required but not installed"
+    exit 1
+fi
+
 # Getting ready
 if ! sudo apt update; then
     echo "Failed to update package lists"
@@ -75,6 +81,38 @@ curl -fsSL https://get.pnpm.io/install.sh | sh -
 export PNPM_HOME="$HOME/.local/share/pnpm"
 export PATH="$PNPM_HOME:$PATH"
 
+# wireguard
+echo "Installing wireguard..."
+if ! sudo apt install wireguard -y; then
+    echo "Failed to install wireguard"
+    exit 1
+fi
+
+# jujutsu (jj)
+echo "Installing jujutsu..."
+if ! cargo install --locked --bin jj jj-cli; then
+    echo "Failed to install jujutsu"
+    exit 1
+fi
+
+# docker
+# Add Docker's official GPG key:
+sudo apt-get update
+sudo apt-get install ca-certificates curl
+sudo install -m 0755 -d /etc/apt/keyrings
+sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
+sudo chmod a+r /etc/apt/keyrings/docker.asc
+
+# Add the repository to Apt sources:
+echo \
+  "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu \
+  $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | \
+  sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+sudo apt-get update
+
+echo "Installing docker..."
+sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+
 # post install verification
 echo "Verifying installations..."
 if ! command -v i3 >/dev/null; then echo "i3 not installed"; fi
@@ -84,9 +122,8 @@ if ! command -v cargo >/dev/null; then echo "Cargo not installed"; fi
 if ! command -v alacritty >/dev/null; then echo "Alacritty not installed"; fi
 if ! command -v node >/dev/null; then echo "Node not installed"; fi
 if ! command -v pnpm >/dev/null; then echo "pnpm not installed"; fi
-
-# Should check for essential dependencies at start
-if ! command -v sudo >/dev/null; then
-    echo "sudo is required but not installed"
-    exit 1
-fi
+if ! command -v cursor >/dev/null; then echo "Cursor not installed"; fi
+if ! command -v jj >/dev/null; then echo "jujutsu not installed"; fi
+if ! command -v wg >/dev/null; then echo "wireguard not installed"; fi
+if ! command -v bun >/dev/null; then echo "bun not installed"; fi
+if ! command -v docker >/dev/null; then echo "docker not installed"; fi
