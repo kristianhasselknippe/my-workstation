@@ -4,7 +4,15 @@ set -euo pipefail
 sudo apt update -y
 sudo apt upgrade -y
 
-unzip ./secrets.zip
+# Prompt for password
+read -s -p "Enter password for secrets.zip: " SECRETS_PASSWORD
+echo
+
+# Use password to unzip
+if ! echo "$SECRETS_PASSWORD" | unzip -P - ./secrets.zip; then
+    echo "Failed to unzip secrets.zip - incorrect password?"
+    exit 1
+fi
 
 echo "Installing oh-my-zsh..."
 if ! sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"; then
