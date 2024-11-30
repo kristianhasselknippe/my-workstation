@@ -1,28 +1,46 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+# Check for essential dependencies first
+if ! command -v sudo >/dev/null; then
+    echo "sudo is required but not installed"
+    exit 1
+fi
+
+# Install basic dependencies
+echo "Installing basic dependencies..."
 sudo apt update -y
-sudo apt upgrade -y
+sudo apt install -y git zsh curl
 
 # Prompt for password
 read -s -p "Enter password for secrets.zip: " SECRETS_PASSWORD
 echo
 
 # Use password to unzip
+echo "Unzipping secrets.zip..."
 if ! echo "$SECRETS_PASSWORD" | unzip -P - ./secrets.zip; then
     echo "Failed to unzip secrets.zip - incorrect password?"
+    exit 1
+fi
+
+# Move secrets to home directory
+echo "Installing ssh keys..."
+mv ./secrets/.ssh "$HOME"
+
+# Move ./secrets/kristian.conf to /etc/wireguard/kristian.conf
+echo "Installing wireguard config..."
+sudo mv ./secrets/kristian.conf /etc/wireguard/kristian.conf
+
+# zsh
+echo "Installing zsh..."
+if ! sudo apt install zsh -y; then
+    echo "Failed to install zsh"
     exit 1
 fi
 
 echo "Installing oh-my-zsh..."
 if ! sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"; then
     echo "Failed to install oh-my-zsh"
-    exit 1
-fi
-
-# Check for essential dependencies
-if ! command -v sudo >/dev/null; then
-    echo "sudo is required but not installed"
     exit 1
 fi
 
@@ -65,7 +83,7 @@ sudo apt-get install neovim -y
 # lazyvim < neovim
 echo "Installing lazyvim..."
 mkdir -p ~/.config/nvim
-cp ./lazyvim/nvim ~/.config/nvim
+cp -r ./lazyvim/nvim/* ~/.config/nvim/
 
 # rust
 echo "Installing rust..."
@@ -84,7 +102,7 @@ cargo install --locked difftastic
 
 # alacritty
 echo "Installing alacritty..."
-if ! sudo apt install cmake pkg-config libfreetype6-dev libfontconfig1-dev libxcb-xfixes0-dev libxkbcommon-dev python3 -y; then
+if ! sudo apt install -y cmake pkg-config libfreetype6-dev libfontconfig1-dev libxcb-xfixes0-dev libxkbcommon-dev python3; then
     echo "Failed to install alacritty dependencies"
     exit 1
 fi
@@ -96,16 +114,14 @@ fi
 
 # node
 echo "Installing node..."
-## installs nvm (Node Version Manager)
+export NVM_DIR="$HOME/.nvm"
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.0/install.sh | bash
+# Source nvm immediately
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.0/install.sh | bash
-## download and install Node.js (you may need to restart the terminal)
+# Add a small delay to ensure NVM is ready
+sleep 2
 nvm install --lts
-## verifies the right Node.js version is in the environment
-node -v # should print `v22.9.0`
-## verifies the right npm version is in the environment
-npm -v # should print `10.8.3`
 
 # pnpm
 echo "Installing pnpm..."
@@ -115,7 +131,7 @@ export PATH="$PNPM_HOME:$PATH"
 
 # wireguard
 echo "Installing wireguard..."
-if ! sudo apt install wireguard -y; then
+if ! sudo apt install -y wireguard; then
     echo "Failed to install wireguard"
     exit 1
 fi
@@ -143,7 +159,13 @@ echo \
 sudo apt-get update
 
 echo "Installing docker..."
-sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+
+echo "Installing bun..."
+if ! curl -fsSL https://bun.sh/install | bash; then
+    echo "Failed to install bun"
+    exit 1
+fi
 
 # post install verification
 echo "Verifying installations..."
@@ -155,8 +177,11 @@ if ! command -v cargo >/dev/null; then echo "Cargo not installed"; fi
 if ! command -v alacritty >/dev/null; then echo "Alacritty not installed"; fi
 if ! command -v node >/dev/null; then echo "Node not installed"; fi
 if ! command -v pnpm >/dev/null; then echo "pnpm not installed"; fi
-if ! command -v cursor >/dev/null; then echo "Cursor not installed"; fi
 if ! command -v jj >/dev/null; then echo "jujutsu not installed"; fi
 if ! command -v wg >/dev/null; then echo "wireguard not installed"; fi
 if ! command -v bun >/dev/null; then echo "bun not installed"; fi
 if ! command -v docker >/dev/null; then echo "docker not installed"; fi
+if ! command -v cursor >/dev/null; then echo "Note: Cursor was not installed by this script"; fi
+if ! command -v bun >/dev/null; then echo "Note: Bun was not installed by this script"; fi
+if ! command -v node >/dev/null; then echo "Note: Node was not installed by this script"; fi
+if ! command -v pnpm >/dev/null; then echo "Note: pnpm was not installed by this script"; fi
