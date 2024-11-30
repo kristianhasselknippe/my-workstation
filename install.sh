@@ -26,8 +26,7 @@ fi
 # Move secrets to home directory
 echo "Installing ssh keys..."
 mkdir -p "$HOME/.ssh"
-yes | cp -rf ./secrets/.ssh/* "$HOME/.ssh/"
-if [ $? -ne 0 ]; then
+if ! cp -rf ./secrets/.ssh/* "$HOME/.ssh/"; then
     echo "Failed to install ssh keys"
     exit 1
 fi
