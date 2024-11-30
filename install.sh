@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+sudo apt update -y
+sudo apt upgrade -y
+
 # Check for essential dependencies
 if ! command -v sudo >/dev/null; then
     echo "sudo is required but not installed"
@@ -52,15 +55,28 @@ cp ./lazyvim/nvim ~/.config/nvim
 echo "Installing rust..."
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
 
+# ripgrep
+echo "Installing ripgrep..."
+if ! cargo install ripgrep; then
+    echo "Failed to install ripgrep"
+    exit 1
+fi
+
 # difftastic < rust
 echo "Installing difftastic..."
 cargo install --locked difftastic
 
 # alacritty
 echo "Installing alacritty..."
-sudo apt install cmake pkg-config libfreetype6-dev libfontconfig1-dev libxcb-xfixes0-dev libxkbcommon-dev python3 -y
+if ! sudo apt install cmake pkg-config libfreetype6-dev libfontconfig1-dev libxcb-xfixes0-dev libxkbcommon-dev python3 -y; then
+    echo "Failed to install alacritty dependencies"
+    exit 1
+fi
 echo "Installing Alacritty, this might take a while..."
-sudo cargo install alacritty
+if ! sudo cargo install alacritty; then
+    echo "Failed to install alacritty"
+    exit 1
+fi
 
 # node
 echo "Installing node..."
