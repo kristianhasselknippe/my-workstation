@@ -41,15 +41,23 @@ fi
 
 # zsh
 echo "Installing zsh..."
-if ! sudo apt install zsh -y; then
-    echo "Failed to install zsh"
-    exit 1
+if ! command -v zsh >/dev/null; then
+    if ! sudo apt install zsh -y; then
+        echo "Failed to install zsh"
+        exit 1
+    fi
+else
+    echo "zsh is already installed"
 fi
 
 echo "Installing oh-my-zsh..."
-if ! sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"; then
-    echo "Failed to install oh-my-zsh"
-    exit 1
+if [ ! -d "$HOME/.oh-my-zsh" ]; then
+    if ! sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"; then
+        echo "Failed to install oh-my-zsh"
+        exit 1
+    fi
+else
+    echo "oh-my-zsh is already installed"
 fi
 
 # Getting ready
