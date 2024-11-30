@@ -27,6 +27,10 @@ fi
 echo "Installing ssh keys..."
 mkdir -p "$HOME/.ssh"
 yes | cp -rf ./secrets/.ssh/* "$HOME/.ssh/"
+if [ $? -ne 0 ]; then
+    echo "Failed to install ssh keys"
+    exit 1
+fi
 
 # Move ./secrets/kristian.conf to /etc/wireguard/kristian.conf
 echo "Installing wireguard config..."
