@@ -25,11 +25,13 @@ fi
 
 # Move secrets to home directory
 echo "Installing ssh keys..."
-cp -r ./secrets/.ssh/* "$HOME/.ssh/"
+mkdir -p "$HOME/.ssh"
+yes | cp -rf ./secrets/.ssh/* "$HOME/.ssh/"
 
 # Move ./secrets/kristian.conf to /etc/wireguard/kristian.conf
 echo "Installing wireguard config..."
-sudo mv ./secrets/kristian.conf /etc/wireguard/kristian.conf
+sudo mkdir -p /etc/wireguard
+sudo yes | cp -rf ./secrets/kristian.conf /etc/wireguard/kristian.conf
 
 # zsh
 echo "Installing zsh..."
