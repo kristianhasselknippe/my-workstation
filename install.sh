@@ -25,7 +25,7 @@ fi
 
 # Move secrets to home directory
 echo "Installing ssh keys..."
-mv ./secrets/.ssh "$HOME"
+cp -r ./secrets/.ssh/* "$HOME/.ssh/"
 
 # Move ./secrets/kristian.conf to /etc/wireguard/kristian.conf
 echo "Installing wireguard config..."
