@@ -4,6 +4,12 @@ set -euo pipefail
 sudo apt update -y
 sudo apt upgrade -y
 
+echo "Installing oh-my-zsh..."
+if ! sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"; then
+    echo "Failed to install oh-my-zsh"
+    exit 1
+fi
+
 # Check for essential dependencies
 if ! command -v sudo >/dev/null; then
     echo "sudo is required but not installed"
@@ -131,6 +137,7 @@ sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin 
 
 # post install verification
 echo "Verifying installations..."
+if ! command -v zsh >/dev/null; then echo "zsh not installed"; fi
 if ! command -v i3 >/dev/null; then echo "i3 not installed"; fi
 if ! command -v nvim >/dev/null; then echo "Neovim not installed"; fi
 if ! command -v rustc >/dev/null; then echo "Rust not installed"; fi
