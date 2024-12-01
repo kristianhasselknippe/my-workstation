@@ -64,11 +64,11 @@ echo "deb http://debian.sur5r.net/i3/ $(grep '^DISTRIB_CODENAME=' /etc/lsb-relea
 sudo apt update
 sudo apt install i3 -y
 mkdir -p ~/.config/i3
-if [ ! -f "./i3/config" ]; then
+if [ ! -f "./config/i3/config" ]; then
     echo "i3 config file missing"
     exit 1
 fi
-cp "./i3/config" "$HOME/.config/i3/config"
+cp "./config/i3/config" "$HOME/.config/i3/config"
 sudo apt install i3blocks -y
 
 # neovim
