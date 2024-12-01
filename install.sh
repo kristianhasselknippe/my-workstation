@@ -352,6 +352,24 @@ if ! sudo snap install rustrover --classic; then
   exit 1
 fi
 
+# cursor
+mkdir ./cursor
+cd ./cursor 
+echo "Installing cursor..."
+if ! wget https://downloader.cursor.sh/linux/appImage/x64; then
+  echo "Failed to download cursor"
+  exit 1
+fi
+if ! sudo mv ./x64 /usr/bin/cursor; then
+  echo "Failed to move cursor to /usr/bin"
+  exit 1
+fi
+if ! sudo chmod +x /usr/bin/cursor; then
+  echo "Failed to make cursor executable"
+  exit 1
+fi
+cd ..
+
 # Copy config files
 cp -r ./config/lazyvim ~/.config/nvim
 cp -r ./config/lazygit ~/.config/lazygit
@@ -422,6 +440,20 @@ Terminal=false
 Type=Application
 Icon=google-chrome
 Categories=Network;WebBrowser;
+StartupNotify=false
+EOF
+
+# Cursor
+cat <<EOF >~/.local/share/applications/Cursor.desktop
+[Desktop Entry]
+Version=1.0
+Name=Cursor
+Comment=Cursor
+Exec=cursor
+Terminal=false
+Type=Application
+Icon=cursor
+Categories=Development;
 StartupNotify=false
 EOF
 
