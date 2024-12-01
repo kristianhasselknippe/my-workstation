@@ -345,6 +345,13 @@ if ! sudo dpkg -i GitButler_0.14.1_amd64.deb; then
   exit 1
 fi
 
+# rust rover
+echo "Installing rust rover..."
+if ! sudo snap install rustrover --classic; then
+  echo "Failed to install rust rover"
+  exit 1
+fi
+
 # Copy config files
 cp -r ./config/lazyvim ~/.config/nvim
 cp -r ./config/lazygit ~/.config/lazygit
@@ -430,6 +437,17 @@ echo "source ~/.Xmodmap" >>~/.zshrc
 echo "source ~/.profile" >>~/.bashrc
 echo "source ~/.Xmodmap" >>~/.bashrc
 
+# Add this near the end of your script
+echo 'export PATH="$HOME/.local/bin:$PATH"' >> ~/.profile
+
+# Add these to ~/.zshrc
+echo '# Load completions' >> ~/.zshrc
+echo 'autoload -Uz compinit' >> ~/.zshrc
+echo 'compinit' >> ~/.zshrc
+
+# Add specific tool completions
+echo 'source <(jj completion zsh)' >> ~/.zshrc
+
 # re-enable screen lock and screen saver
 gsettings set org.gnome.desktop.screensaver lock-enabled true
 gsettings set org.gnome.desktop.session idle-delay 300
@@ -446,13 +464,3 @@ fi
 
 if ! command -v zsh >/dev/null; then echo "zsh not installed"; fi
 
-# Add this near the end of your script
-echo 'export PATH="$HOME/.local/bin:$PATH"' >> ~/.profile
-
-# Add these to ~/.zshrc
-echo '# Load completions' >> ~/.zshrc
-echo 'autoload -Uz compinit' >> ~/.zshrc
-echo 'compinit' >> ~/.zshrc
-
-# Add specific tool completions
-echo 'source <(jj completion zsh)' >> ~/.zshrc
