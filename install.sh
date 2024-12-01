@@ -98,6 +98,7 @@ if ! command -v nvim >/dev/null; then
   exit 1
 fi
 rm nvim-linux64.tar.gz
+echo 'export PATH="/opt/nvim-linux64/bin:$PATH"' >> ~/.profile
 
 # lazyvim < neovim
 echo "Installing lazyvim..."
@@ -107,6 +108,7 @@ cp -r ./config/lazyvim/nvim/* ~/.config/nvim/
 # rust
 echo "Installing rust..."
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+echo 'source "$HOME/.cargo/env"' >> ~/.profile
 
 # Source rustup
 . "$HOME/.cargo/env"
@@ -165,12 +167,17 @@ export NVM_DIR="$HOME/.nvm"
 # Add a small delay to ensure NVM is ready
 sleep 2
 nvm install --lts
+echo 'export NVM_DIR="$HOME/.nvm"' >> ~/.profile
+echo '[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"' >> ~/.profile
+echo '[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"' >> ~/.profile
 
 # pnpm
 echo "Installing pnpm..."
 curl -fsSL https://get.pnpm.io/install.sh | sh -
 export PNPM_HOME="$HOME/.local/share/pnpm"
 export PATH="$PNPM_HOME:$PATH"
+echo 'export PNPM_HOME="$HOME/.local/share/pnpm"' >> ~/.profile
+echo 'export PATH="$PNPM_HOME:$PATH"' >> ~/.profile
 
 # wireguard
 echo "Installing wireguard..."
@@ -222,6 +229,8 @@ if ! curl -fsSL https://bun.sh/install | bash; then
   echo "Failed to install bun"
   exit 1
 fi
+echo 'export BUN_INSTALL="$HOME/.bun"' >> ~/.profile
+echo 'export PATH="$BUN_INSTALL/bin:$PATH"' >> ~/.profile
 source ~/.bashrc
 
 # lazygit
@@ -281,9 +290,7 @@ cd ..
 ## move binaries to ~/bin
 mkdir -p ~/bin
 mv tracy/profiler/build/Tracy* ~/bin
-
-## Add tracy to PATH
-export PATH="$PATH:$HOME/tracy/profiler/build"
+echo 'export PATH="$HOME/bin:$PATH"' >> ~/.profile
 
 # xserver utils
 echo "Installing xserver utils..."
@@ -324,6 +331,7 @@ if ! curl -sSfL https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/instal
   echo "Failed to install zoxide"
   exit 1
 fi
+echo 'eval "$(zoxide init zsh)"' >> ~/.zshrc
 
 # git butler
 echo "Downloading git butler..."
@@ -437,3 +445,14 @@ else
 fi
 
 if ! command -v zsh >/dev/null; then echo "zsh not installed"; fi
+
+# Add this near the end of your script
+echo 'export PATH="$HOME/.local/bin:$PATH"' >> ~/.profile
+
+# Add these to ~/.zshrc
+echo '# Load completions' >> ~/.zshrc
+echo 'autoload -Uz compinit' >> ~/.zshrc
+echo 'compinit' >> ~/.zshrc
+
+# Add specific tool completions
+echo 'source <(jj completion zsh)' >> ~/.zshrc
