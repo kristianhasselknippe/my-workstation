@@ -199,7 +199,10 @@ echo \
 sudo apt-get update
 
 echo "Installing docker..."
-sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+if ! sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin; then
+    echo "Failed to install docker and its components"
+    exit 1
+fi
 
 echo "Installing bun..."
 if ! curl -fsSL https://bun.sh/install | bash; then
