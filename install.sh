@@ -73,7 +73,25 @@ sudo apt install i3blocks -y
 
 # neovim
 echo "Installing neovim..."
-sudo apt-get install neovim -y
+if ! curl -LO https://github.com/neovim/neovim/releases/latest/download/nvim-linux64.tar.gz; then
+    echo "Failed to download neovim"
+    exit 1
+fi
+if ! sudo rm -rf /opt/nvim; then
+    echo "Failed to remove old neovim installation"
+    exit 1
+fi
+if ! sudo tar -C /opt -xzf nvim-linux64.tar.gz; then
+    echo "Failed to extract neovim"
+    rm nvim-linux64.tar.gz
+    exit 1
+fi
+export PATH="$PATH:/opt/nvim-linux64/bin"
+if ! command -v nvim >/dev/null; then
+    echo "Failed to add neovim to PATH"
+    exit 1
+fi
+rm nvim-linux64.tar.gz
 
 # lazyvim < neovim
 echo "Installing lazyvim..."
