@@ -96,7 +96,7 @@ rm nvim-linux64.tar.gz
 # lazyvim < neovim
 echo "Installing lazyvim..."
 mkdir -p ~/.config/nvim
-cp -r ./lazyvim/nvim/* ~/.config/nvim/
+cp -r ./config/lazyvim/nvim/* ~/.config/nvim/
 
 # rust
 echo "Installing rust..."
