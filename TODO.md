@@ -2,7 +2,7 @@
 
 - [ ] Settings from ~/.profile
 
-- [ ] Install tracy profiler
+- [x] Install tracy profiler
 - [ ] Git butler
 - [ ] zoxide
 

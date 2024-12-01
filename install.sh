@@ -3,8 +3,8 @@ set -euo pipefail
 
 # Check for essential dependencies first
 if ! command -v sudo >/dev/null; then
-    echo "sudo is required but not installed"
-    exit 1
+  echo "sudo is required but not installed"
+  exit 1
 fi
 
 # Install basic dependencies
@@ -19,30 +19,30 @@ echo
 # Use password to unzip
 echo "Unzipping secrets.zip..."
 if ! unzip -P "$SECRETS_PASSWORD" ./secrets.zip; then
-    echo "Failed to unzip secrets.zip - incorrect password?"
-    exit 1
+  echo "Failed to unzip secrets.zip - incorrect password?"
+  exit 1
 fi
 
 # Move secrets to home directory
 echo "Installing ssh keys..."
 mkdir -p "$HOME/.ssh"
 if ! cp -rf ./secrets/.ssh/* "$HOME/.ssh/"; then
-    echo "Failed to install ssh keys"
-    exit 1
+  echo "Failed to install ssh keys"
+  exit 1
 fi
 
 # Move ./secrets/kristian.conf to /etc/wireguard/kristian.conf
 echo "Installing wireguard config..."
 sudo mkdir -p /etc/wireguard
 if ! sudo cp -f ./secrets/kristian.conf /etc/wireguard/kristian.conf; then
-    echo "Failed to install wireguard config"
-    exit 1
+  echo "Failed to install wireguard config"
+  exit 1
 fi
 
 # Getting ready
 if ! sudo apt update; then
-    echo "Failed to update package lists"
-    exit 1
+  echo "Failed to update package lists"
+  exit 1
 fi
 
 # curl
@@ -56,17 +56,17 @@ if ! /usr/lib/apt/apt-helper download-file https://debian.sur5r.net/i3/pool/main
   exit 1
 fi
 if ! sudo apt install ./keyring.deb -y; then
-    rm keyring.deb
-    echo "Failed to install i3 keyring"
-    exit 1
+  rm keyring.deb
+  echo "Failed to install i3 keyring"
+  exit 1
 fi
 echo "deb http://debian.sur5r.net/i3/ $(grep '^DISTRIB_CODENAME=' /etc/lsb-release | cut -f2 -d=) universe" | sudo tee /etc/apt/sources.list.d/sur5r-i3.list
 sudo apt update
 sudo apt install i3 -y
 mkdir -p ~/.config/i3
 if [ ! -f "./config/i3/config" ]; then
-    echo "i3 config file missing"
-    exit 1
+  echo "i3 config file missing"
+  exit 1
 fi
 cp "./config/i3/config" "$HOME/.config/i3/config"
 sudo apt install i3blocks -y
@@ -75,22 +75,22 @@ sudo apt-get update && sudo apt-get install rofi
 # neovim
 echo "Installing neovim..."
 if ! curl -LO https://github.com/neovim/neovim/releases/latest/download/nvim-linux64.tar.gz; then
-    echo "Failed to download neovim"
-    exit 1
+  echo "Failed to download neovim"
+  exit 1
 fi
 if ! sudo rm -rf /opt/nvim; then
-    echo "Failed to remove old neovim installation"
-    exit 1
+  echo "Failed to remove old neovim installation"
+  exit 1
 fi
 if ! sudo tar -C /opt -xzf nvim-linux64.tar.gz; then
-    echo "Failed to extract neovim"
-    rm nvim-linux64.tar.gz
-    exit 1
+  echo "Failed to extract neovim"
+  rm nvim-linux64.tar.gz
+  exit 1
 fi
 export PATH="$PATH:/opt/nvim-linux64/bin"
 if ! command -v nvim >/dev/null; then
-    echo "Failed to add neovim to PATH"
-    exit 1
+  echo "Failed to add neovim to PATH"
+  exit 1
 fi
 rm nvim-linux64.tar.gz
 
@@ -108,30 +108,30 @@ curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
 
 # Install build-essential
 if ! sudo apt install build-essential -y; then
-    echo "Failed to install build-essential"
-    exit 1
+  echo "Failed to install build-essential"
+  exit 1
 fi
 
 # ripgrep
 echo "Installing ripgrep..."
 if ! cargo install ripgrep; then
-    echo "Failed to install ripgrep"
-    exit 1
+  echo "Failed to install ripgrep"
+  exit 1
 fi
 
 # clang
 echo "Installing clang..."
 if ! sudo apt install clang -y; then
-    echo "Failed to install clang"
-    exit 1
+  echo "Failed to install clang"
+  exit 1
 fi
 sudo update-alternatives --set c++ /usr/bin/clang++
 
 # fd
 echo "Installing fd..."
 if ! sudo apt install fd-find -y; then
-    echo "Failed to install fd"
-    exit 1
+  echo "Failed to install fd"
+  exit 1
 fi
 
 # difftastic < rust
@@ -141,13 +141,13 @@ cargo install --locked difftastic
 # alacritty
 echo "Installing alacritty..."
 if ! sudo apt install cmake g++ pkg-config libfreetype6-dev libfontconfig1-dev libxcb-xfixes0-dev libxkbcommon-dev python3 -y; then
-    echo "Failed to install alacritty dependencies"
-    exit 1
+  echo "Failed to install alacritty dependencies"
+  exit 1
 fi
 echo "Installing Alacritty, this might take a while..."
 if ! cargo install alacritty; then
-    echo "Failed to install alacritty"
-    exit 1
+  echo "Failed to install alacritty"
+  exit 1
 fi
 
 # node
@@ -170,20 +170,20 @@ export PATH="$PNPM_HOME:$PATH"
 # wireguard
 echo "Installing wireguard..."
 if ! sudo apt install -y wireguard; then
-    echo "Failed to install wireguard"
-    exit 1
+  echo "Failed to install wireguard"
+  exit 1
 fi
 
 # jujutsu (jj)
 echo "Installing jujutsu dependencies..."
 if ! sudo apt-get install libssl-dev openssl pkg-config build-essential -y; then
-    echo "Failed to install jujutsu dependencies"
-    exit 1
+  echo "Failed to install jujutsu dependencies"
+  exit 1
 fi
 echo "Installing jujutsu..."
 if ! cargo install --locked --bin jj jj-cli; then
-    echo "Failed to install jujutsu"
-    exit 1
+  echo "Failed to install jujutsu"
+  exit 1
 fi
 
 # docker
@@ -196,48 +196,91 @@ sudo chmod a+r /etc/apt/keyrings/docker.asc
 # Add the repository to Apt sources:
 echo \
   "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu \
-  $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | \
-  sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+  $(. /etc/os-release && echo "$VERSION_CODENAME") stable" |
+  sudo tee /etc/apt/sources.list.d/docker.list >/dev/null
 sudo apt-get update
 
 echo "Installing docker..."
 if ! sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin; then
-    echo "Failed to install docker and its components"
-    exit 1
+  echo "Failed to install docker and its components"
+  exit 1
 fi
 
 echo "Installing lazydocker..."
 if ! curl -fsSL https://raw.githubusercontent.com/jesseduffield/lazydocker/master/scripts/install_update_linux.sh | bash; then
-    echo "Failed to install lazydocker"
-    exit 1
+  echo "Failed to install lazydocker"
+  exit 1
 fi
 
 echo "Installing bun..."
 if ! curl -fsSL https://bun.sh/install | bash; then
-    echo "Failed to install bun"
-    exit 1
+  echo "Failed to install bun"
+  exit 1
 fi
 source ~/.bashrc
 
 # lazygit
 echo "Installing lazygit..."
 if ! LAZYGIT_VERSION=$(curl -s "https://api.github.com/repos/jesseduffield/lazygit/releases/latest" | \grep -Po '"tag_name": *"v\K[^"]*'); then
-    echo "Failed to get latest lazygit version"
-    exit 1
+  echo "Failed to get latest lazygit version"
+  exit 1
 fi
 if ! curl -Lo lazygit.tar.gz "https://github.com/jesseduffield/lazygit/releases/download/v${LAZYGIT_VERSION}/lazygit_${LAZYGIT_VERSION}_Linux_x86_64.tar.gz"; then
-    echo "Failed to download lazygit"
-    exit 1
+  echo "Failed to download lazygit"
+  exit 1
 fi
 if ! tar xf lazygit.tar.gz lazygit; then
-    echo "Failed to extract lazygit"
-    exit 1
+  echo "Failed to extract lazygit"
+  exit 1
 fi
 if ! sudo install lazygit -D -t /usr/local/bin/; then
-    echo "Failed to install lazygit"
-    exit 1
+  echo "Failed to install lazygit"
+  exit 1
 fi
 
+# pkg-config
+echo "Installing pkg-config..."
+if ! sudo apt-get install -y pkg-config; then
+  echo "Failed to install pkg-config"
+  exit 1
+fi
+
+# tracy profiler dependencies
+## dbus
+echo "Installing dbus..."
+if ! sudo apt-get install -y dbus-x11; then
+  echo "Failed to install dbus"
+  exit 1
+fi
+
+## libxxkbcommon, wayland, wayland-protocols, libglvnd
+echo "Installing libxxkbcommon, wayland, wayland-protocols, libglvnd..."
+if ! sudo apt install libxkbcommon-x11-0 wayland wayland-protocols libglvnd-glx-dev -y; then
+  echo "Failed to install libxxkbcommon, wayland, wayland-protocols, libglvnd"
+  exit 1
+fi
+
+## capstone, glfw, freetype
+echo "Installing capstone, glfw, freetype..."
+if ! sudo apt install libcapstone-dev libglfw3-dev libfreetype-dev -y; then
+  echo "Failed to install capstone, glfw, freetype"
+  exit 1
+fi
+
+# tracy profiler
+git clone git@github.com:wolfpld/tracy.git
+cd tracy
+cmake -B profiler/build -S profiler -DCMAKE_BUILD_TYPE=Release -DLEGACY=ON
+cmake --build profiler/build --config Release --parallel
+cd ..
+## move binaries to ~/bin
+mkdir -p ~/bin
+mv tracy/profiler/build/Tracy* ~/bin
+
+## Add tracy to PATH
+export PATH="$PATH:$HOME/tracy/profiler/build"
+
+# Copy config files
 cp -r ./config/lazyvim ~/.config/nvim
 cp -r ./config/lazygit ~/.config/lazygit
 cp -r ./config/i3 ~/.config/i3
@@ -264,6 +307,8 @@ if ! command -v lazygit >/dev/null; then echo "Note: lazygit was not installed b
 if ! command -v lazydocker >/dev/null; then echo "Note: lazydocker was not installed by this script"; fi
 
 # add applications
+
+## Alacritty
 cat <<EOF >~/.local/share/applications/Alacritty.desktop
 [Desktop Entry]
 Version=1.0
@@ -277,26 +322,40 @@ Categories=Utilities;TerminalEmulator;
 StartupNotify=false
 EOF
 
+## Tracy profiler
+cat <<EOF >~/.local/share/applications/Tracy.desktop
+[Desktop Entry]
+Version=1.0
+Name=Tracy
+Comment=Tracy profiler
+Exec=TRACY_DPI_SCALE=1.5 ~/bin/Tracy-release
+Terminal=false
+Type=Application
+Icon=tracy
+Categories=Development;
+StartupNotify=false
+EOF
 
 # zsh
 echo "Installing zsh..."
 if ! command -v zsh >/dev/null; then
-    if ! sudo apt install zsh -y; then
-        echo "Failed to install zsh"
-        exit 1
-    fi
+  if ! sudo apt install zsh -y; then
+    echo "Failed to install zsh"
+    exit 1
+  fi
 else
-    echo "zsh is already installed"
+  echo "zsh is already installed"
 fi
 
 echo "Installing oh-my-zsh..."
 if [ ! -d "$HOME/.oh-my-zsh" ]; then
-    if ! sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"; then
-        echo "Failed to install oh-my-zsh"
-        exit 1
-    fi
+  if ! sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"; then
+    echo "Failed to install oh-my-zsh"
+    exit 1
+  fi
 else
-    echo "oh-my-zsh is already installed"
+  echo "oh-my-zsh is already installed"
 fi
 
 if ! command -v zsh >/dev/null; then echo "zsh not installed"; fi
+
