@@ -205,6 +205,12 @@ if ! sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx
     exit 1
 fi
 
+echo "Installing lazydocker..."
+if ! curl -fsSL https://raw.githubusercontent.com/jesseduffield/lazydocker/master/scripts/install_update_linux.sh | bash; then
+    echo "Failed to install lazydocker"
+    exit 1
+fi
+
 echo "Installing bun..."
 if ! curl -fsSL https://bun.sh/install | bash; then
     echo "Failed to install bun"
@@ -231,10 +237,10 @@ if ! sudo install lazygit -D -t /usr/local/bin/; then
     exit 1
 fi
 
-cp -r ./lazyvim ~/.config/nvim
-cp -r ./lazygit ~/.config/lazygit
-cp -r ./i3 ~/.config/i3
-cp -r ./Cursor ~/.config/Cursor
+cp -r ./config/lazyvim ~/.config/nvim
+cp -r ./config/lazygit ~/.config/lazygit
+cp -r ./config/i3 ~/.config/i3
+cp -r ./config/Cursor ~/.config/Cursor
 
 # post install verification
 echo "Verifying installations..."
@@ -254,6 +260,7 @@ if ! command -v bun >/dev/null; then echo "Note: Bun was not installed by this s
 if ! command -v node >/dev/null; then echo "Note: Node was not installed by this script"; fi
 if ! command -v pnpm >/dev/null; then echo "Note: pnpm was not installed by this script"; fi
 if ! command -v lazygit >/dev/null; then echo "Note: lazygit was not installed by this script"; fi
+if ! command -v lazydocker >/dev/null; then echo "Note: lazydocker was not installed by this script"; fi
 
 # add applications
 cat <<EOF >~/.local/share/applications/Alacritty.desktop
