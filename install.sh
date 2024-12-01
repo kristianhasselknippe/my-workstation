@@ -157,6 +157,11 @@ if ! sudo apt install -y wireguard; then
 fi
 
 # jujutsu (jj)
+echo "Installing jujutsu dependencies..."
+if ! sudo apt-get install libssl-dev openssl pkg-config build-essential -y; then
+    echo "Failed to install jujutsu dependencies"
+    exit 1
+fi
 echo "Installing jujutsu..."
 if ! cargo install --locked --bin jj jj-cli; then
     echo "Failed to install jujutsu"
