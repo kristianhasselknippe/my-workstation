@@ -1,15 +1,14 @@
 # TODO
 
 - [x] Settings from ~/.profile
-- [x] Chrome
 - [x] Install tracy profiler
-- [ ] Git butler
-- [ ] zoxide
+- [x] Git butler
+- [x] zoxide
 
-- [ ] Turn off screen saver while installing
+- [x] Turn off screen saver while installing
+  - gsettings set org.gnome.desktop.screensaver lock-enabled false
+  - gsettings set org.gnome.desktop.session idle-delay 0
 
-  gsettings set org.gnome.desktop.screensaver lock-enabled false
-  gsettings set org.gnome.desktop.session idle-delay 0
-
-  gsettings set org.gnome.desktop.screensaver lock-enabled true
-  gsettings set org.gnome.desktop.session idle-delay 300
+- [x] Turn on screen saver after installing
+  - gsettings set org.gnome.desktop.screensaver lock-enabled true
+  - gsettings set org.gnome.desktop.session idle-delay 300

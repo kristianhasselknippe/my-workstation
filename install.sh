@@ -325,6 +325,18 @@ if ! curl -sSfL https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/instal
   exit 1
 fi
 
+# git butler
+echo "Downloading git butler..."
+if ! wget https://releases.gitbutler.com/releases/release/0.14.1-1533/linux/x86_64/GitButler_0.14.1_amd64.deb; then
+  echo "Failed to download git butler"
+  exit 1
+fi
+echo "Installing git butler..."
+if ! sudo dpkg -i GitButler_0.14.1_amd64.deb; then
+  echo "Failed to install git butler"
+  exit 1
+fi
+
 # Copy config files
 cp -r ./config/lazyvim ~/.config/nvim
 cp -r ./config/lazygit ~/.config/lazygit
@@ -353,7 +365,7 @@ if ! command -v pnpm >/dev/null; then echo "Note: pnpm was not installed by this
 if ! command -v lazygit >/dev/null; then echo "Note: lazygit was not installed by this script"; fi
 if ! command -v lazydocker >/dev/null; then echo "Note: lazydocker was not installed by this script"; fi
 if ! command -v steam >/dev/null; then echo "Note: steam was not installed by this script"; fi
-
+if ! command -v git-butler >/dev/null; then echo "Note: git-butler was not installed by this script"; fi
 # add applications
 
 ## Alacritty
