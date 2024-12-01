@@ -195,6 +195,25 @@ if ! curl -fsSL https://bun.sh/install | bash; then
 fi
 source ~/.bashrc
 
+# lazygit
+echo "Installing lazygit..."
+if ! LAZYGIT_VERSION=$(curl -s "https://api.github.com/repos/jesseduffield/lazygit/releases/latest" | \grep -Po '"tag_name": *"v\K[^"]*'); then
+    echo "Failed to get latest lazygit version"
+    exit 1
+fi
+if ! curl -Lo lazygit.tar.gz "https://github.com/jesseduffield/lazygit/releases/download/v${LAZYGIT_VERSION}/lazygit_${LAZYGIT_VERSION}_Linux_x86_64.tar.gz"; then
+    echo "Failed to download lazygit"
+    exit 1
+fi
+if ! tar xf lazygit.tar.gz lazygit; then
+    echo "Failed to extract lazygit"
+    exit 1
+fi
+if ! sudo install lazygit -D -t /usr/local/bin/; then
+    echo "Failed to install lazygit"
+    exit 1
+fi
+
 cp -r ./lazyvim ~/.config/nvim
 cp -r ./lazygit ~/.config/lazygit
 cp -r ./i3 ~/.config/i3
@@ -217,6 +236,7 @@ if ! command -v cursor >/dev/null; then echo "Note: Cursor was not installed by 
 if ! command -v bun >/dev/null; then echo "Note: Bun was not installed by this script"; fi
 if ! command -v node >/dev/null; then echo "Note: Node was not installed by this script"; fi
 if ! command -v pnpm >/dev/null; then echo "Note: pnpm was not installed by this script"; fi
+if ! command -v lazygit >/dev/null; then echo "Note: lazygit was not installed by this script"; fi
 
 # add applications
 cat <<EOF >~/.local/share/applications/Alacritty.desktop
