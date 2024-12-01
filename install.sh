@@ -70,6 +70,7 @@ if [ ! -f "./config/i3/config" ]; then
 fi
 cp "./config/i3/config" "$HOME/.config/i3/config"
 sudo apt install i3blocks -y
+sudo apt-get update && sudo apt-get install rofi
 
 # neovim
 echo "Installing neovim..."
