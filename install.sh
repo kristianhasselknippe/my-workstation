@@ -193,6 +193,7 @@ if ! curl -fsSL https://bun.sh/install | bash; then
     echo "Failed to install bun"
     exit 1
 fi
+source ~/.bashrc
 
 cp -r ./lazyvim ~/.config/nvim
 cp -r ./lazygit ~/.config/lazygit
@@ -216,6 +217,21 @@ if ! command -v cursor >/dev/null; then echo "Note: Cursor was not installed by 
 if ! command -v bun >/dev/null; then echo "Note: Bun was not installed by this script"; fi
 if ! command -v node >/dev/null; then echo "Note: Node was not installed by this script"; fi
 if ! command -v pnpm >/dev/null; then echo "Note: pnpm was not installed by this script"; fi
+
+# add applications
+cat <<EOF >~/.local/share/applications/Alacritty.desktop
+[Desktop Entry]
+Version=1.0
+Name=Alacritty
+Comment=Edit text files
+Exec=alacritty
+Terminal=false
+Type=Application
+Icon=alacritty
+Categories=Utilities;TerminalEmulator;
+StartupNotify=false
+EOF
+
 
 # zsh
 echo "Installing zsh..."
