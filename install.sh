@@ -124,7 +124,7 @@ if ! sudo apt install clang -y; then
     echo "Failed to install clang"
     exit 1
 fi
-sudo update-alternatives --config c++
+sudo update-alternatives --set c++ /usr/bin/clang++
 
 # fd
 echo "Installing fd..."
@@ -136,7 +136,6 @@ fi
 # difftastic < rust
 echo "Installing difftastic..."
 cargo install --locked difftastic
-
 
 # alacritty
 echo "Installing alacritty..."
