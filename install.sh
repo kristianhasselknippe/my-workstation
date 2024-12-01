@@ -39,27 +39,6 @@ if ! sudo cp -f ./secrets/kristian.conf /etc/wireguard/kristian.conf; then
     exit 1
 fi
 
-# zsh
-echo "Installing zsh..."
-if ! command -v zsh >/dev/null; then
-    if ! sudo apt install zsh -y; then
-        echo "Failed to install zsh"
-        exit 1
-    fi
-else
-    echo "zsh is already installed"
-fi
-
-echo "Installing oh-my-zsh..."
-if [ ! -d "$HOME/.oh-my-zsh" ]; then
-    if ! sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"; then
-        echo "Failed to install oh-my-zsh"
-        exit 1
-    fi
-else
-    echo "oh-my-zsh is already installed"
-fi
-
 # Getting ready
 if ! sudo apt update; then
     echo "Failed to update package lists"
@@ -217,7 +196,6 @@ cp -r ./Cursor ~/.config/Cursor
 
 # post install verification
 echo "Verifying installations..."
-if ! command -v zsh >/dev/null; then echo "zsh not installed"; fi
 if ! command -v i3 >/dev/null; then echo "i3 not installed"; fi
 if ! command -v nvim >/dev/null; then echo "Neovim not installed"; fi
 if ! command -v rustc >/dev/null; then echo "Rust not installed"; fi
@@ -233,3 +211,26 @@ if ! command -v cursor >/dev/null; then echo "Note: Cursor was not installed by 
 if ! command -v bun >/dev/null; then echo "Note: Bun was not installed by this script"; fi
 if ! command -v node >/dev/null; then echo "Note: Node was not installed by this script"; fi
 if ! command -v pnpm >/dev/null; then echo "Note: pnpm was not installed by this script"; fi
+
+# zsh
+echo "Installing zsh..."
+if ! command -v zsh >/dev/null; then
+    if ! sudo apt install zsh -y; then
+        echo "Failed to install zsh"
+        exit 1
+    fi
+else
+    echo "zsh is already installed"
+fi
+
+echo "Installing oh-my-zsh..."
+if [ ! -d "$HOME/.oh-my-zsh" ]; then
+    if ! sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"; then
+        echo "Failed to install oh-my-zsh"
+        exit 1
+    fi
+else
+    echo "oh-my-zsh is already installed"
+fi
+
+if ! command -v zsh >/dev/null; then echo "zsh not installed"; fi
