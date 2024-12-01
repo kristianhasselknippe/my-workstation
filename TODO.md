@@ -1,11 +1,10 @@
 # TODO
 
-- [ ] Settings from ~/.profile
-
+- [x] Settings from ~/.profile
+- [x] Chrome
 - [x] Install tracy profiler
 - [ ] Git butler
 - [ ] zoxide
-
 
 - [ ] Turn off screen saver while installing
 

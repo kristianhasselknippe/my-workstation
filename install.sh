@@ -1,6 +1,11 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+# Disable screen lock and screen saver
+gsettings set org.gnome.desktop.screensaver lock-enabled false
+gsettings set org.gnome.desktop.session idle-delay 0
+
+
 # Check for essential dependencies first
 if ! command -v sudo >/dev/null; then
   echo "sudo is required but not installed"
@@ -280,11 +285,53 @@ mv tracy/profiler/build/Tracy* ~/bin
 ## Add tracy to PATH
 export PATH="$PATH:$HOME/tracy/profiler/build"
 
+# xserver utils
+echo "Installing xserver utils..."
+if ! sudo apt install -y xmodmap; then
+  echo "Failed to install xserver utils"
+  exit 1
+fi
+
+# steam
+echo "Installing steam..."
+if ! sudo apt install -y steam; then
+  echo "Failed to install steam"
+  exit 1
+fi
+
+# wget
+echo "Installing wget..."
+if ! sudo apt install -y wget; then
+  echo "Failed to install wget"
+  exit 1
+fi
+
+# chrome
+echo "Installing chrome..."
+if ! wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb; then
+  echo "Failed to download Chrome .deb package"
+  exit 1
+fi
+
+if ! sudo dpkg -i google-chrome-stable_current_amd64.deb; then
+  echo "Failed to install Chrome .deb package"
+  exit 1
+fi
+
+# zoxide
+echo "Installing zoxide..."
+if ! curl -sSfL https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh | sh; then
+  echo "Failed to install zoxide"
+  exit 1
+fi
+
 # Copy config files
 cp -r ./config/lazyvim ~/.config/nvim
 cp -r ./config/lazygit ~/.config/lazygit
 cp -r ./config/i3 ~/.config/i3
 cp -r ./config/Cursor ~/.config/Cursor
+cp -r ./config/.profile ~/.profile
+cp -r ./config/Xmodmap ~/.Xmodmap
 
 # post install verification
 echo "Verifying installations..."
@@ -305,6 +352,7 @@ if ! command -v node >/dev/null; then echo "Note: Node was not installed by this
 if ! command -v pnpm >/dev/null; then echo "Note: pnpm was not installed by this script"; fi
 if ! command -v lazygit >/dev/null; then echo "Note: lazygit was not installed by this script"; fi
 if ! command -v lazydocker >/dev/null; then echo "Note: lazydocker was not installed by this script"; fi
+if ! command -v steam >/dev/null; then echo "Note: steam was not installed by this script"; fi
 
 # add applications
 
@@ -336,16 +384,35 @@ Categories=Development;
 StartupNotify=false
 EOF
 
-# zsh
-echo "Installing zsh..."
-if ! command -v zsh >/dev/null; then
-  if ! sudo apt install zsh -y; then
-    echo "Failed to install zsh"
-    exit 1
-  fi
-else
-  echo "zsh is already installed"
-fi
+## Chrome
+cat <<EOF >~/.local/share/applications/Chrome.desktop
+[Desktop Entry]
+Version=1.0
+Name=Chrome
+Comment=Google Chrome
+Exec=google-chrome
+Terminal=false
+Type=Application
+Icon=google-chrome
+Categories=Network;WebBrowser;
+StartupNotify=false
+EOF
+
+# make sure .zshrc and .bashrc exist
+touch ~/.zshrc
+touch ~/.bashrc
+
+# add necessary config to .zshrc
+echo "source ~/.profile" >>~/.zshrc
+echo "source ~/.Xmodmap" >>~/.zshrc
+
+# add necessary config to .bashrc
+echo "source ~/.profile" >>~/.bashrc
+echo "source ~/.Xmodmap" >>~/.bashrc
+
+# re-enable screen lock and screen saver
+gsettings set org.gnome.desktop.screensaver lock-enabled true
+gsettings set org.gnome.desktop.session idle-delay 300
 
 echo "Installing oh-my-zsh..."
 if [ ! -d "$HOME/.oh-my-zsh" ]; then
@@ -358,4 +425,3 @@ else
 fi
 
 if ! command -v zsh >/dev/null; then echo "zsh not installed"; fi
-
