@@ -1,5 +1,8 @@
 # TODO
 
+- [ ] slack
+- [ ] discord
+
 - [x] Settings from ~/.profile
 - [x] Install tracy profiler
 - [x] Git butler
@@ -14,3 +17,5 @@
 - [x] Turn on screen saver after installing
   - gsettings set org.gnome.desktop.screensaver lock-enabled true
   - gsettings set org.gnome.desktop.session idle-delay 300
+
+
