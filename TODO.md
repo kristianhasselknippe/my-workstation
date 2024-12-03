@@ -1,8 +1,7 @@
 # TODO
 
-- [ ] slack
-- [ ] discord
-
+- [x] slack
+- [x] discord
 - [x] Settings from ~/.profile
 - [x] Install tracy profiler
 - [x] Git butler

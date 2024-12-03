@@ -5,7 +5,6 @@ set -euo pipefail
 gsettings set org.gnome.desktop.screensaver lock-enabled false
 gsettings set org.gnome.desktop.session idle-delay 0
 
-
 # Check for essential dependencies first
 if ! command -v sudo >/dev/null; then
   echo "sudo is required but not installed"
@@ -98,7 +97,7 @@ if ! command -v nvim >/dev/null; then
   exit 1
 fi
 rm nvim-linux64.tar.gz
-echo 'export PATH="/opt/nvim-linux64/bin:$PATH"' >> ~/.profile
+echo 'export PATH="/opt/nvim-linux64/bin:$PATH"' >>~/.profile
 
 # lazyvim < neovim
 echo "Installing lazyvim..."
@@ -108,7 +107,7 @@ cp -r ./config/lazyvim/nvim/* ~/.config/nvim/
 # rust
 echo "Installing rust..."
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
-echo 'source "$HOME/.cargo/env"' >> ~/.profile
+echo 'source "$HOME/.cargo/env"' >>~/.profile
 
 # Source rustup
 . "$HOME/.cargo/env"
@@ -167,17 +166,17 @@ export NVM_DIR="$HOME/.nvm"
 # Add a small delay to ensure NVM is ready
 sleep 2
 nvm install --lts
-echo 'export NVM_DIR="$HOME/.nvm"' >> ~/.profile
-echo '[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"' >> ~/.profile
-echo '[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"' >> ~/.profile
+echo 'export NVM_DIR="$HOME/.nvm"' >>~/.profile
+echo '[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"' >>~/.profile
+echo '[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"' >>~/.profile
 
 # pnpm
 echo "Installing pnpm..."
 curl -fsSL https://get.pnpm.io/install.sh | sh -
 export PNPM_HOME="$HOME/.local/share/pnpm"
 export PATH="$PNPM_HOME:$PATH"
-echo 'export PNPM_HOME="$HOME/.local/share/pnpm"' >> ~/.profile
-echo 'export PATH="$PNPM_HOME:$PATH"' >> ~/.profile
+echo 'export PNPM_HOME="$HOME/.local/share/pnpm"' >>~/.profile
+echo 'export PATH="$PNPM_HOME:$PATH"' >>~/.profile
 
 # wireguard
 echo "Installing wireguard..."
@@ -229,8 +228,8 @@ if ! curl -fsSL https://bun.sh/install | bash; then
   echo "Failed to install bun"
   exit 1
 fi
-echo 'export BUN_INSTALL="$HOME/.bun"' >> ~/.profile
-echo 'export PATH="$BUN_INSTALL/bin:$PATH"' >> ~/.profile
+echo 'export BUN_INSTALL="$HOME/.bun"' >>~/.profile
+echo 'export PATH="$BUN_INSTALL/bin:$PATH"' >>~/.profile
 source ~/.bashrc
 
 # lazygit
@@ -290,7 +289,7 @@ cd ..
 ## move binaries to ~/bin
 mkdir -p ~/bin
 mv tracy/profiler/build/Tracy* ~/bin
-echo 'export PATH="$HOME/bin:$PATH"' >> ~/.profile
+echo 'export PATH="$HOME/bin:$PATH"' >>~/.profile
 
 # xserver utils
 echo "Installing xserver utils..."
@@ -331,7 +330,7 @@ if ! curl -sSfL https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/instal
   echo "Failed to install zoxide"
   exit 1
 fi
-echo 'eval "$(zoxide init zsh)"' >> ~/.zshrc
+echo 'eval "$(zoxide init zsh)"' >>~/.zshrc
 
 # git butler
 echo "Downloading git butler..."
@@ -354,7 +353,7 @@ fi
 
 # cursor
 mkdir ./cursor
-cd ./cursor 
+cd ./cursor
 echo "Installing cursor..."
 if ! wget https://downloader.cursor.sh/linux/appImage/x64; then
   echo "Failed to download cursor"
@@ -369,6 +368,24 @@ if ! sudo chmod +x /usr/bin/cursor; then
   exit 1
 fi
 cd ..
+
+# slack
+echo "Installing slack..."
+if ! sudo snap install slack; then
+  echo "Failed to install slack"
+  exit 1
+fi
+
+# discord
+echo "Installing discord..."
+if ! wget https://stable.dl2.discordapp.net/apps/linux/0.0.76/discord-0.0.76.deb; then
+  echo "Failed to download discord"
+  exit 1
+fi
+if ! sudo dpkg -i discord-0.0.76.deb; then
+  echo "Failed to install discord"
+  exit 1
+fi
 
 # Copy config files
 cp -r ./config/lazyvim ~/.config/nvim
@@ -399,6 +416,7 @@ if ! command -v lazygit >/dev/null; then echo "Note: lazygit was not installed b
 if ! command -v lazydocker >/dev/null; then echo "Note: lazydocker was not installed by this script"; fi
 if ! command -v steam >/dev/null; then echo "Note: steam was not installed by this script"; fi
 if ! command -v git-butler >/dev/null; then echo "Note: git-butler was not installed by this script"; fi
+if ! command -v discord >/dev/null; then echo "Note: discord was not installed by this script"; fi
 # add applications
 
 ## Alacritty
@@ -470,15 +488,15 @@ echo "source ~/.profile" >>~/.bashrc
 echo "source ~/.Xmodmap" >>~/.bashrc
 
 # Add this near the end of your script
-echo 'export PATH="$HOME/.local/bin:$PATH"' >> ~/.profile
+echo 'export PATH="$HOME/.local/bin:$PATH"' >>~/.profile
 
 # Add these to ~/.zshrc
-echo '# Load completions' >> ~/.zshrc
-echo 'autoload -Uz compinit' >> ~/.zshrc
-echo 'compinit' >> ~/.zshrc
+echo '# Load completions' >>~/.zshrc
+echo 'autoload -Uz compinit' >>~/.zshrc
+echo 'compinit' >>~/.zshrc
 
 # Add specific tool completions
-echo 'source <(jj completion zsh)' >> ~/.zshrc
+echo 'source <(jj completion zsh)' >>~/.zshrc
 
 # re-enable screen lock and screen saver
 gsettings set org.gnome.desktop.screensaver lock-enabled true
@@ -495,4 +513,3 @@ else
 fi
 
 if ! command -v zsh >/dev/null; then echo "zsh not installed"; fi
-
