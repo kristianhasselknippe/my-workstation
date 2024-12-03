@@ -59,7 +59,10 @@ fi
 
 # curl
 echo "Installing curl..."
-sudo apt install curl -y
+if ! sudo apt install curl -y; then
+  echo "Failed to install curl"
+  exit 1
+fi
 
 # i3
 echo "Installing i3..."
@@ -150,7 +153,10 @@ fi
 
 # difftastic < rust
 echo "Installing difftastic..."
-cargo install --locked difftastic
+if ! cargo install --locked difftastic; then
+  echo "Failed to install difftastic"
+  exit 1
+fi
 
 # alacritty
 echo "Installing alacritty..."
@@ -289,7 +295,11 @@ if ! sudo apt install libcapstone-dev libglfw3-dev libfreetype-dev -y; then
 fi
 
 # gtk3
-sudo apt-get install libgtk-3-dev
+echo "Installing libgtk-3-dev..."
+if ! sudo apt-get install libgtk-3-dev -y; then
+  echo "Failed to install libgtk-3-dev"
+  exit 1
+fi
 
 # tracy profiler
 # git clone git@github.com:wolfpld/tracy.git
@@ -400,7 +410,18 @@ if ! sudo dpkg -i discord-0.0.76.deb; then
 fi
 
 # FUSE
-sudo apt install fuse
+echo "Installing fuse..."
+if ! sudo apt install fuse -y; then
+  echo "Failed to install fuse"
+  exit 1
+fi
+
+# bacon
+echo "Installing bacon..."
+if ! cargo install bacon; then
+  echo "Failed to install bacon"
+  exit 1
+fi
 
 # doppler
 # Debian 11+ / Ubuntu 22.04+

@@ -6,3 +6,15 @@ xrandr --output DP-0 --right-of HDMI-0 --rotate right
 
 setxkbmap -layout "us,no"
 xmodmap ~/.Xmodmap
+
+export PATH="$HOME/.local/bin:$PATH"
+
+# neovim
+export PATH="$PATH:/opt/nvim-linux64/bin"
+
+# cargo installed binaries
+export PATH="$PATH:$HOME/.cargo/bin"
+
+# bun
+export BUN_INSTALL="$HOME/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"
