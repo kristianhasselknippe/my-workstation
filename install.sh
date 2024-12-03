@@ -35,6 +35,14 @@ if ! cp -rf ./secrets/.ssh/* "$HOME/.ssh/"; then
   exit 1
 fi
 
+# Copy config files
+cp -r ./config/lazyvim ~/.config/nvim
+cp -r ./config/lazygit ~/.config/lazygit
+cp -r ./config/i3 ~/.config/i3
+cp -r ./config/Cursor ~/.config/Cursor
+cp -r ./config/.profile ~/.profile
+cp -r ./config/.Xmodmap ~/.Xmodmap
+
 # Move ./secrets/kristian.conf to /etc/wireguard/kristian.conf
 echo "Installing wireguard config..."
 sudo mkdir -p /etc/wireguard
@@ -268,7 +276,7 @@ fi
 
 ## libxxkbcommon, wayland, wayland-protocols, libglvnd
 echo "Installing libxxkbcommon, wayland, wayland-protocols, libglvnd..."
-if ! sudo apt install libxkbcommon-x11-0 wayland wayland-protocols libglvnd-glx-dev -y; then
+if ! sudo apt install libxkbcommon-x11-0 wayland-protocols -y; then
   echo "Failed to install libxxkbcommon, wayland, wayland-protocols, libglvnd"
   exit 1
 fi
@@ -280,27 +288,31 @@ if ! sudo apt install libcapstone-dev libglfw3-dev libfreetype-dev -y; then
   exit 1
 fi
 
+# gtk3
+sudo apt-get install libgtk-3-dev
+
 # tracy profiler
-git clone git@github.com:wolfpld/tracy.git
-cd tracy
-cmake -B profiler/build -S profiler -DCMAKE_BUILD_TYPE=Release -DLEGACY=ON
-cmake --build profiler/build --config Release --parallel
-cd ..
+# git clone git@github.com:wolfpld/tracy.git
+# cd tracy
+# cmake -B profiler/build -S profiler -DCMAKE_BUILD_TYPE=Release -DLEGACY=ON -DGTK_FILESELECTOR=ON
+# cmake --build profiler/build --config Release --parallel
+# cd ..
+
 ## move binaries to ~/bin
-mkdir -p ~/bin
-mv tracy/profiler/build/Tracy* ~/bin
-echo 'export PATH="$HOME/bin:$PATH"' >>~/.profile
+# mkdir -p ~/bin
+# mv tracy/profiler/build/Tracy* ~/bin
+# echo 'export PATH="$HOME/bin:$PATH"' >>~/.profile
 
 # xserver utils
 echo "Installing xserver utils..."
-if ! sudo apt install -y xmodmap; then
-  echo "Failed to install xserver utils"
+if ! sudo apt install -y x11-xserver-utils; then
+  echo "Failed to install xserver-utils"
   exit 1
 fi
 
 # steam
 echo "Installing steam..."
-if ! sudo apt install -y steam; then
+if ! sudo snap install steam; then
   echo "Failed to install steam"
   exit 1
 fi
@@ -387,13 +399,14 @@ if ! sudo dpkg -i discord-0.0.76.deb; then
   exit 1
 fi
 
-# Copy config files
-cp -r ./config/lazyvim ~/.config/nvim
-cp -r ./config/lazygit ~/.config/lazygit
-cp -r ./config/i3 ~/.config/i3
-cp -r ./config/Cursor ~/.config/Cursor
-cp -r ./config/.profile ~/.profile
-cp -r ./config/Xmodmap ~/.Xmodmap
+# doppler
+# Debian 11+ / Ubuntu 22.04+
+sudo apt-get update && sudo apt-get install -y apt-transport-https ca-certificates curl gnupg
+curl -sLf --retry 3 --tlsv1.2 --proto "=https" 'https://packages.doppler.com/public/cli/gpg.DE2A7741A397C129.key' | sudo gpg --dearmor -o /usr/share/keyrings/doppler-archive-keyring.gpg
+echo "deb [signed-by=/usr/share/keyrings/doppler-archive-keyring.gpg] https://packages.doppler.com/public/cli/deb/debian any-version main" | sudo tee /etc/apt/sources.list.d/doppler-cli.list
+sudo apt-get update && sudo apt-get install doppler
+
+echo 'export PATH="$HOME/.cargo/bin:$PATH"' >>~/.profile
 
 # post install verification
 echo "Verifying installations..."
