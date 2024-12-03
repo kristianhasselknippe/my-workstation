@@ -1,5 +1,7 @@
 # TODO
 
+- [ ] Rofi: add -y
+
 - [x] slack
 - [x] discord
 - [x] Settings from ~/.profile
@@ -16,5 +18,3 @@
 - [x] Turn on screen saver after installing
   - gsettings set org.gnome.desktop.screensaver lock-enabled true
   - gsettings set org.gnome.desktop.session idle-delay 300
-
-
