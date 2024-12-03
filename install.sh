@@ -399,6 +399,9 @@ if ! sudo dpkg -i discord-0.0.76.deb; then
   exit 1
 fi
 
+# FUSE
+sudo apt install fuse
+
 # doppler
 # Debian 11+ / Ubuntu 22.04+
 sudo apt-get update && sudo apt-get install -y apt-transport-https ca-certificates curl gnupg
@@ -407,6 +410,9 @@ echo "deb [signed-by=/usr/share/keyrings/doppler-archive-keyring.gpg] https://pa
 sudo apt-get update && sudo apt-get install doppler
 
 echo 'export PATH="$HOME/.cargo/bin:$PATH"' >>~/.profile
+
+# deactivate apparmor thingy which causes problems with launching AppImages
+sudo sysctl -w kernel.apparmor_restrict_unprivileged_userns=0
 
 # post install verification
 echo "Verifying installations..."
