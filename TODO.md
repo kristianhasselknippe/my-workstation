@@ -3,6 +3,7 @@
 - [ ] Rofi: add -y
 - [ ] Flameshot
 - [ ] Peek
+- [ ] rust-analyzer: `rustup component add rust-analyzer`
 
 - [x] slack
 - [x] discord
