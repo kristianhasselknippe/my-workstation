@@ -1,0 +1,21 @@
+init:
+  wg-quick up kristian
+
+rover:
+  doppler run -- rustrover
+
+tracy:
+  tracy DPI_SCALE=1
+
+editor:
+  cd ./midio/editor && pnpm install
+  cd ./midio/editor && pnpm dev
+
+bacon:
+  bacon ./midio/midio
+
+tsc:
+  cd ./midio/editor/src/editor && npx tsc -w --noEmit --skipLibCheck
+
+registry:
+  cd ./midio-package-registry && CARGO_NET_GIT_FETCH_WITH_CLI=true DATABASE_REPLICA=db doppler run -- just run-debug-replica-profiling
