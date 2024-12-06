@@ -423,6 +423,13 @@ if ! cargo install bacon; then
   exit 1
 fi
 
+# just
+echo "Installing just..."
+if ! cargo install just; then
+  echo "Failed to install just"
+  exit 1
+fi
+
 # doppler
 # Debian 11+ / Ubuntu 22.04+
 sudo apt-get update && sudo apt-get install -y apt-transport-https ca-certificates curl gnupg
