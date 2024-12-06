@@ -1,6 +1,8 @@
 # TODO
 
 - [ ] Rofi: add -y
+- [ ] Flameshot
+- [ ] Peek
 
 - [x] slack
 - [x] discord
