@@ -1,5 +1,7 @@
 # TODO
 
+- [ ] Make sure commands run after oh-my-zsh installation keep running
+
 - [ ] Rofi: add -y
 - [ ] Flameshot
 - [ ] Peek

@@ -522,6 +522,8 @@ Categories=Development;
 StartupNotify=false
 EOF
 
+echo 'export PATH="$HOME/.local/share/applications:$PATH"' >>~/.profile
+
 # make sure .zshrc and .bashrc exist
 touch ~/.zshrc
 touch ~/.bashrc
@@ -560,3 +562,6 @@ else
 fi
 
 if ! command -v zsh >/dev/null; then echo "zsh not installed"; fi
+
+# We need to make sure the above command doesn't stop everything
+git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
