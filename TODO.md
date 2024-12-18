@@ -7,6 +7,8 @@
 - [ ] Peek
 - [ ] rust-analyzer: `rustup component add rust-analyzer`
 
+- [ ] https://github.com/fujiapple852/trippy
+
 - [x] slack
 - [x] discord
 - [x] Settings from ~/.profile
