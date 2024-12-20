@@ -492,7 +492,7 @@ cat <<EOF >~/.local/share/applications/Tracy.desktop
 Version=1.0
 Name=Tracy
 Comment=Tracy profiler
-Exec=TRACY_DPI_SCALE=1.5 ~/bin/Tracy-release
+Exec=sh -c 'TRACY_DPI_SCALE=1.5 ~/bin/Tracy'
 Terminal=false
 Type=Application
 Icon=tracy
