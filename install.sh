@@ -231,6 +231,9 @@ if ! sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx
   exit 1
 fi
 
+# Add user to docker group
+sudo usermod -a -G docker $USER
+
 echo "Installing lazydocker..."
 if ! curl -fsSL https://raw.githubusercontent.com/jesseduffield/lazydocker/master/scripts/install_update_linux.sh | bash; then
   echo "Failed to install lazydocker"
@@ -307,6 +310,9 @@ fi
 # cmake -B profiler/build -S profiler -DCMAKE_BUILD_TYPE=Release -DLEGACY=ON -DGTK_FILESELECTOR=ON
 # cmake --build profiler/build --config Release --parallel
 # cd ..
+
+# TODO: build with clang
+# cmake -B profiler/build -S profiler -DCMAKE_BUILD_TYPE=Release -DLEGACY=ON -DCMAKE_C_COMPILER=clang -DCMAKE_CXX_COMPILER=clang++
 
 ## move binaries to ~/bin
 # mkdir -p ~/bin
