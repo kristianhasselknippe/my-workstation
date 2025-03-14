@@ -8,14 +8,32 @@ tracy:
   tracy DPI_SCALE=1
 
 editor:
-  cd ./midio/editor && pnpm install
-  cd ./midio/editor && pnpm dev
+  cd ./midio/frontend/apps/web && bun install
+  cd ./midio/frontend/apps/web && bun dev
 
 bacon:
   bacon ./midio/midio
 
 tsc:
-  cd ./midio/editor/src/editor && npx tsc -w --noEmit --skipLibCheck
+  cd ./midio/frontend/apps/web && bun install
+  cd ./midio/frontend/apps/web && npx tsc -w --noEmit --skipLibCheck
 
 registry:
   cd ./midio-package-registry && CARGO_NET_GIT_FETCH_WITH_CLI=true DATABASE_REPLICA=db doppler run -- just run-debug-replica-profiling
+
+docker:
+  cd ./midio && sudo $(which lazydocker)
+
+nats:
+  cd ./midio && doppler run -- docker compose up nats
+
+editor-local-nats:
+  cd ./midio/frontend/apps/web && bun install
+  cd ./midio/frontend/apps/web && bun run dev:local
+
+test-examples:
+  cd ./midio/midio && just test-examples
+
+start-all:
+    ./start-midio-workspace.sh
+
