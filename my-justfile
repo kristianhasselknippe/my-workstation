@@ -34,6 +34,9 @@ editor-local-nats:
 test-examples:
   cd ./midio/midio && just test-examples
 
+tokenizer:
+  cd ~/dev/midio-tokenizer-proxy/ && doppler run -- docker compose up tokenizer
+
 start-all:
     ./start-midio-workspace.sh
 
