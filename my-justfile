@@ -37,6 +37,9 @@ test-examples:
 tokenizer:
   cd ~/dev/midio-tokenizer-proxy/ && doppler run -- docker compose up tokenizer
 
-start-all:
+start-all-tmux:
     ./start-midio-workspace.sh
+
+start-all:
+  zellij --layout ./midio_workspace.kdl
 

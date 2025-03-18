@@ -1,0 +1,59 @@
+layout {
+    default_tab_template {
+        pane size=1 borderless=true {
+            plugin location="zellij:tab-bar"
+        }
+        children
+        pane size=2 borderless=true {
+            plugin location="zellij:status-bar"
+        }
+    }
+    tab name="midio infra" {
+        pane { 
+          cwd "~/dev"
+          command "just"
+          args "nats" 
+        }
+        pane { 
+          cwd "~/dev"
+          command "just"
+          args "registry"
+        }
+        pane { 
+          cwd "~/dev"
+          command "just"
+          args "tokenizer"
+        }
+    }
+    tab name="dev tools" {
+        pane {
+          cwd "~/dev"
+          command "just"
+          args "rover"
+        }
+        pane {
+          cwd "~/dev"
+          command "cursor"
+          args "--no-sandbox"
+        }
+    }
+    tab name="type checking" {
+        pane {
+          cwd "~/dev"
+          command "just"
+          args "bacon"
+        }
+        pane {
+          cwd "~/dev"
+          command "just"
+          args "tsc"
+        }
+    }
+    tab name="midio editor" {
+        pane {
+          cwd "~/dev"
+          command "just"
+          args "editor-local-nats"
+        }
+    }
+}

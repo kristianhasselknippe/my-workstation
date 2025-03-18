@@ -436,6 +436,13 @@ if ! cargo install just; then
   exit 1
 fi
 
+# zellij
+echo "Installing zellij..."
+if ! cargo install zellij --locked; then
+  echo "Failed to install zellij"
+  exit 1
+fi
+
 # doppler
 # Debian 11+ / Ubuntu 22.04+
 sudo apt-get update && sudo apt-get install -y apt-transport-https ca-certificates curl gnupg
