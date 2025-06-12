@@ -66,7 +66,6 @@ bindsym $mod+t exec --no-startup-id rofi -show drun
 # change focus
 bindsym $mod+j focus left
 bindsym $mod+k focus down
-bindsym $mod+l focus up
 bindsym $mod+semicolon focus right
 
 # alternatively, you can use the cursor keys:
