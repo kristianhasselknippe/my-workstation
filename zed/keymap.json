@@ -18,7 +18,11 @@
     "bindings": {
       "f5": "debugger::Continue",
       "f10": "debugger::StepOver",
-      "f11": "debugger::StepInto"
+      "f11": "debugger::StepInto",
+      "space d d": "workspace::ToggleBottomDock",
+      "space d h": "workspace::ToggleLeftDock",
+      "space d l": "workspace::ToggleRightDock",
+      "space w O": "workspace::CloseInactiveTabsAndPanes"
     }
   },
   {
