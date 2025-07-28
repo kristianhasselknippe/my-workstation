@@ -10,13 +10,9 @@
   "tab_bar": {
     "show": false
   },
-  "symbol": {
-    "search": {
-      "kind": "all_symbols"
-    }
-  },
   "context_servers": {
     "mcp-server-github": {
+      "source": "extension",
       "settings": {
         "github_personal_access_token": "GITHUB_PERSONAL_ACCESS_TOKEN"
       }
@@ -29,28 +25,39 @@
     "default_profile": "ask",
     "inline_assistant_model": {
       "provider": "zed.dev",
-      "model": "claude-3-7-sonnet-latest"
+      "model": "claude-3-7-sonnet"
     },
     "default_model": {
       "provider": "zed.dev",
       "model": "claude-sonnet-4"
-    },
-    "version": "2"
+    }
   },
   "features": {
     "edit_prediction_provider": "zed"
   },
   "relative_line_numbers": true,
   "vim_mode": true,
-  "ui_font_size": 24.0,
-  "buffer_font_size": 20.0,
+  "ui_font_size": 16.0,
+  "buffer_font_size": 16.0,
   "theme": {
     "mode": "system",
     "light": "One Dark",
     "dark": "One Dark"
   },
   "vim": {
-    "use_multiline_find": true,
     "use_smartcase_find": true
+  },
+  "languages": {
+    "JavaScript": {
+      "formatter": {
+        "external": {
+          "command": "prettier",
+          "arguments": ["--stdin-filepath", "{buffer_path}"]
+        }
+      }
+    },
+    "TypeScript": {
+      "prettier": { "allowed": true }
+    }
   }
 }
