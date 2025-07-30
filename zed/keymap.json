@@ -26,6 +26,13 @@
     }
   },
   {
+    "context": "Editor",
+    "bindings": {
+      "ctrl-s": "vim::SelectLargerSyntaxNode",
+      "ctrl-shift-s": "vim::SelectSmallerSyntaxNode"
+    }
+  },
+  {
     "context": "Editor && vim_mode == normal",
     "bindings": {
       "space w v": "pane::SplitRight",
@@ -43,6 +50,7 @@
       "space /": "workspace::NewSearch",
       "space `": "pane::AlternateFile",
       "space ,": "tab_switcher::ToggleAll",
+
       "g r": "editor::FindAllReferences",
       "g ;": "editor::GoToPreviousChange"
     }
