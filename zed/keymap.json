@@ -35,7 +35,7 @@
       "space w k": "workspace::ActivatePaneUp",
       "space w j": "workspace::ActivatePaneDown",
       "space w d": "pane::CloseAllItems",
-      "space w o": "pane::CloseInactiveItems",
+      "space w o": "pane::CloseOtherItems",
       "space space": "file_finder::Toggle",
       "space c a": "editor::ToggleCodeActions",
       "space c r": "editor::Rename",
@@ -44,7 +44,6 @@
       "space `": "pane::AlternateFile",
       "space ,": "tab_switcher::ToggleAll",
       "g r": "editor::FindAllReferences",
-      "ctrl-i": "agent::ToggleFocus",
       "g ;": "editor::GoToPreviousChange"
     }
   },
