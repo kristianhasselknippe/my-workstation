@@ -47,6 +47,7 @@
       "space c a": "editor::ToggleCodeActions",
       "space c r": "editor::Rename",
       "space s s": "project_symbols::Toggle",
+      "space s shift-s": "outline_panel::ToggleFocus",
       "space /": "workspace::NewSearch",
       "space `": "pane::AlternateFile",
       "space ,": "tab_switcher::ToggleAll",
